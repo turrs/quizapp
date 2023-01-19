@@ -20,12 +20,12 @@ const checkTokenExpirationMiddleware =
     next(action);
   };
 
-const store = configureStore({
+const store: any = configureStore({
   reducer: {
     users: usersLoginReducer,
     quiz: quizReducer,
   },
-  middleware: [thunk, checkTokenExpirationMiddleware],
+  middleware: [thunk],
 });
 
 export type RootState = ReturnType<typeof store.getState>;

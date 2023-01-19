@@ -5,7 +5,8 @@ import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/states';
 import Quiz from '@/components/Quiz';
-import { getUserQuiz, setNewQuiz } from '@/states/Quiz';
+import { asyncGetQuiz, getUserQuiz, setNewQuiz } from '@/states/Quiz';
+import { initialStateQuiz } from '@/states/Quiz/reducer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,6 +21,10 @@ export default function Home() {
     const quiz = getUserQuiz();
     console.log(9898, quiz);
     dispatch(setNewQuiz(quiz));
+  };
+  const handleNewQuiz = async () => {
+    dispatch(asyncGetQuiz() as any);
+    setOpenQuiz(true);
   };
   useEffect(() => {
     const handleTabClose = (event: any) => {
@@ -45,7 +50,7 @@ export default function Home() {
       <Header setOpenQuiz={setOpenQuiz} />
 
       <div className="flex flex-col justify-center items-center ">
-        {quiz !== null && openQuiz === false ? (
+        {quiz !== initialStateQuiz && openQuiz === false ? (
           <div
             onClick={handleResume}
             className="bg-blue p-2 hover:opacity-75 rounded-xl hover:cursor-pointer"
@@ -53,7 +58,19 @@ export default function Home() {
             <p className="text-white">Resume Quiz</p>
           </div>
         ) : (
-          <>{openQuiz === false && <div>New Quiz</div>}</>
+          <>
+            {openQuiz === false && (
+              <div>
+                <button
+                  onClick={handleNewQuiz}
+                  className="block rounded-lg bg-blue px-5 py-3 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring"
+                  type="button"
+                >
+                  New Quiz
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
       {openQuiz && <Quiz />}

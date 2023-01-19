@@ -36,7 +36,7 @@ const Login = (props: LoginProps) => {
       <GoogleLogin
         onSuccess={(credentialResponse) => handleSuccess(credentialResponse)}
         onError={() => {
-          console.log('Login Failed');
+          alert('Login Failed');
         }}
       />
     </div>

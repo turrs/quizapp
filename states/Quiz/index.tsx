@@ -4,6 +4,8 @@ import { AppDispatch } from '..';
 const TypeAction = {
   SET_NEW_QUIZ: 'SET_NEW_QUIZ',
   SET_CHOICE: 'SET_CHOICE',
+  SET_DELETE_CHOICE: 'SET_DELETE_CHOICE',
+  SET_DELETE_ALL_QUIZ: 'SET_DELETE_ALL_QUIZ',
 };
 
 function setNewQuiz(data: any) {
@@ -12,6 +14,11 @@ function setNewQuiz(data: any) {
     payload: {
       data,
     },
+  };
+}
+function deleteAllQuiz() {
+  return {
+    type: TypeAction.SET_DELETE_ALL_QUIZ,
   };
 }
 
@@ -24,9 +31,17 @@ function setChoice(number: number, answer: string) {
     },
   };
 }
+function setDeleteChoice(number: number) {
+  return {
+    type: TypeAction.SET_CHOICE,
+    payload: {
+      number,
+    },
+  };
+}
 
 function getUserQuiz() {
-  return JSON.parse(localStorage.getItem('quiz'));
+  return JSON.parse(localStorage.getItem('quiz') as any);
 }
 
 function saveUserQuiz(data: string) {
@@ -40,9 +55,17 @@ function asyncGetQuiz() {
       saveUserQuiz(response);
       AppDispatch(setNewQuiz(response));
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 }
 
-export { TypeAction, setNewQuiz, asyncGetQuiz, getUserQuiz, setChoice };
+export {
+  TypeAction,
+  setNewQuiz,
+  asyncGetQuiz,
+  getUserQuiz,
+  setChoice,
+  setDeleteChoice,
+  deleteAllQuiz,
+};

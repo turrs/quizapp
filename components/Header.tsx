@@ -9,7 +9,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import jwt from 'jwt-decode';
 import { googleLogout } from '@react-oauth/google';
-import { asyncGetQuiz } from '@/states/Quiz';
+import { asyncGetQuiz, deleteAllQuiz } from '@/states/Quiz';
+
 type HeaderProps = {
   setOpenQuiz: any;
 };
@@ -30,14 +31,14 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
   };
 
   const handleLogout = () => {
+    dispatch(deleteAllQuiz());
     googleLogout();
     localStorage.clear();
-    router.push('/login');
+    window.location.reload();
   };
   const handleNewQuiz = async () => {
-    console.log('we');
+    dispatch(asyncGetQuiz() as any);
     setOpenQuiz(true);
-    dispatch(asyncGetQuiz());
   };
   useEffect(() => {
     getUserLogin();
@@ -51,7 +52,9 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
               Welcome Back, {user.name} !
             </h1>
 
-            <p className="mt-1.5 text-sm text-gray-500">Let's Start Quiz</p>
+            <p className="mt-1.5 text-sm text-gray-500">
+              {"Let's Start Quiz "}
+            </p>
           </div>
 
           <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">

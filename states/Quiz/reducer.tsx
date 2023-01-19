@@ -1,7 +1,8 @@
 import { TypeAction } from '.';
+import store from '..';
 import { QuizActionTypes } from './type';
 
-const initialState: any = [
+export const initialStateQuiz: any = [
   {
     category: '',
     type: '',
@@ -12,7 +13,7 @@ const initialState: any = [
   },
 ];
 
-function quizReducer(quizState = initialState, action: QuizActionTypes) {
+function quizReducer(quizState = initialStateQuiz, action: QuizActionTypes) {
   switch (action.type) {
     case TypeAction.SET_NEW_QUIZ:
       if (action.payload.data === null) {
@@ -27,6 +28,16 @@ function quizReducer(quizState = initialState, action: QuizActionTypes) {
           answer: action.payload.answer,
         }),
       });
+    case TypeAction.SET_DELETE_CHOICE:
+      return Object.values({
+        ...quizState,
+        [action.payload.number]: (quizState[action.payload.number] = {
+          ...quizState[action.payload.number],
+          answer: null,
+        }),
+      });
+    case TypeAction.SET_DELETE_ALL_QUIZ:
+
     default:
       return quizState;
   }
