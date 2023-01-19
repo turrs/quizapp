@@ -1,0 +1,1 @@
+export type UserLoginActionTypes =  SET_USER_LOGIN;
