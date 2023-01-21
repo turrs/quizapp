@@ -10,7 +10,8 @@ import React, { useEffect } from 'react';
 import jwt from 'jwt-decode';
 import { googleLogout } from '@react-oauth/google';
 import { asyncGetQuiz, deleteAllQuiz } from '@/states/Quiz';
-
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import LoadingBar from 'react-redux-loading-bar';
 type HeaderProps = {
   setOpenQuiz: any;
 };
@@ -34,17 +35,20 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
     dispatch(deleteAllQuiz());
     googleLogout();
     localStorage.clear();
-    window.location.reload();
+    router.push('/login');
   };
   const handleNewQuiz = async () => {
+    dispatch(showLoading());
     dispatch(asyncGetQuiz() as any);
     setOpenQuiz(true);
+    dispatch(hideLoading());
   };
   useEffect(() => {
     getUserLogin();
   }, []);
   return (
     <header aria-label="Page Header">
+      <LoadingBar />
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div className="text-center sm:text-left">

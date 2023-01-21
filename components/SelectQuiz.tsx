@@ -3,9 +3,10 @@ import React from 'react';
 
 type SelectQuizProps = {
   setNumberQuestion: any;
+  numberQuestion: number;
 };
 
-const SelectQuiz = ({ setNumberQuestion }: SelectQuizProps) => {
+const SelectQuiz = ({ setNumberQuestion, numberQuestion }: SelectQuizProps) => {
   const quiz = useAppSelector((state) => state.quiz);
   return (
     <div>
@@ -15,11 +16,11 @@ const SelectQuiz = ({ setNumberQuestion }: SelectQuizProps) => {
           <div
             onClick={() => setNumberQuestion(index)}
             key={index}
-            className={`hover:cursor-pointer hover:bg-slate-200 rounded-md m-1 w-[40px] flex justify-center items-center  h-[40px] border-solid border-2   ${
+            className={`hover:cursor-pointer hover:bg-slate-200 rounded-md  m-1 w-[40px] flex justify-center items-center  h-[40px] border-solid border-2   ${
               item.answer === null || item.answer === undefined
                 ? 'bg-white'
                 : 'bg-blue'
-            }`}
+            } `}
           >
             <p
               className={`  ${

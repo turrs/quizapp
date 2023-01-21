@@ -47,6 +47,9 @@ function getUserQuiz() {
 function saveUserQuiz(data: string) {
   localStorage.setItem('quiz', JSON.stringify(data));
 }
+function deleteUserQuiz() {
+  localStorage.removeItem('quiz');
+}
 
 function asyncGetQuiz() {
   return async (AppDispatch: any) => {
@@ -68,4 +71,5 @@ export {
   setChoice,
   setDeleteChoice,
   deleteAllQuiz,
+  deleteUserQuiz,
 };

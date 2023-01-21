@@ -37,6 +37,7 @@ function quizReducer(quizState = initialStateQuiz, action: QuizActionTypes) {
         }),
       });
     case TypeAction.SET_DELETE_ALL_QUIZ:
+      return initialStateQuiz;
 
     default:
       return quizState;

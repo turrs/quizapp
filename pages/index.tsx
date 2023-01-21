@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/states';
 import Quiz from '@/components/Quiz';
 import { asyncGetQuiz, getUserQuiz, setNewQuiz } from '@/states/Quiz';
 import { initialStateQuiz } from '@/states/Quiz/reducer';
-
+import LoadingBar from 'react-redux-loading-bar';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
@@ -48,7 +48,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header setOpenQuiz={setOpenQuiz} />
-
+      <LoadingBar />
       <div className="flex flex-col justify-center items-center ">
         {quiz !== initialStateQuiz && openQuiz === false ? (
           <div
@@ -73,7 +73,7 @@ export default function Home() {
           </>
         )}
       </div>
-      {openQuiz && <Quiz />}
+      {openQuiz && <Quiz setOpenQuiz={setOpenQuiz} />}
     </>
   );
 }

@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt from 'jwt-decode';
 import { useRouter } from 'next/router';
+import LoadingBar from 'react-redux-loading-bar';
 import {
   getAccessToken,
   saveAccessToken,
@@ -33,6 +34,7 @@ const Login = (props: LoginProps) => {
   }, []);
   return (
     <div className="flex w-full bg-blue justify-center items-center h-screen">
+      <LoadingBar />
       <GoogleLogin
         onSuccess={(credentialResponse) => handleSuccess(credentialResponse)}
         onError={() => {

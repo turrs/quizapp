@@ -9,6 +9,8 @@ import {
 import thunk from 'redux-thunk';
 import { quizReducer } from './Quiz/reducer';
 import { usersLoginReducer } from './User/reducer';
+import { loadingBarReducer } from 'react-redux-loading-bar';
+import { historyReducer } from './History/reducer';
 
 const checkTokenExpirationMiddleware =
   (store: any) => (next: any) => (action: any) => {
@@ -24,6 +26,8 @@ const store: any = configureStore({
   reducer: {
     users: usersLoginReducer,
     quiz: quizReducer,
+    loadingBar: loadingBarReducer,
+    historyQuiz: historyReducer,
   },
   middleware: [thunk],
 });
