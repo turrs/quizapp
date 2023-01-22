@@ -22,7 +22,7 @@ const HistoryQuiz = ({ setHistory, historyQuiz }: HistoryQuizProps) => {
               <div className="mt-2 text-center sm:ml-1 sm:text-left w-full">
                 <div className="flex flex-col w-full">
                   {historyQuiz.map((item: any, index: number) => (
-                    <div className="py-2">
+                    <div className="py-2" key={index}>
                       <div>Quiz {index}</div>
                       <Result answer={item} />
                     </div>
