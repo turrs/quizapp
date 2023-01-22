@@ -55,6 +55,7 @@ function asyncGetQuiz() {
   return async (AppDispatch: any) => {
     try {
       const response = await ApiQuiz.getQuiz();
+      console.log('quiz', response);
       saveUserQuiz(response);
       AppDispatch(setNewQuiz(response));
     } catch (error) {

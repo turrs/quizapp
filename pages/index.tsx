@@ -8,24 +8,33 @@ import Quiz from '@/components/Quiz';
 import { asyncGetQuiz, getUserQuiz, setNewQuiz } from '@/states/Quiz';
 import { initialStateQuiz } from '@/states/Quiz/reducer';
 import LoadingBar from 'react-redux-loading-bar';
+import Result from '@/components/Result';
+import HistoryQuiz from '@/components/HistoryQuiz';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [openQuiz, setOpenQuiz] = useState<boolean>(false);
   const quiz = useAppSelector((state) => state.quiz);
+  const stateHistory = useAppSelector((state) => state.historyQuiz);
+  const [stateQuiz, setStateQuiz] = useState([]);
+  const [result, setResult] = useState<boolean>(false);
+  const [hisory, setHistory] = useState<boolean>(false);
+  const [historyQuiz, setHistoryQuiz] = useState([]);
   const dispatch = useAppDispatch();
   const handleResume = () => {
     setOpenQuiz(true);
   };
   const addQuizToState = async () => {
     const quiz = getUserQuiz();
-    console.log(9898, quiz);
     dispatch(setNewQuiz(quiz));
   };
   const handleNewQuiz = async () => {
     dispatch(asyncGetQuiz() as any);
     setOpenQuiz(true);
   };
+  useEffect(() => {
+    setHistoryQuiz(stateHistory);
+  }, [stateHistory]);
   useEffect(() => {
     const handleTabClose = (event: any) => {
       event.preventDefault();
@@ -39,6 +48,7 @@ export default function Home() {
       window.removeEventListener('beforeunload', handleTabClose);
     };
   }, []);
+
   return (
     <>
       <Head>
@@ -47,9 +57,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header setOpenQuiz={setOpenQuiz} />
+      <Header setHistory={setHistory} setOpenQuiz={setOpenQuiz} />
       <LoadingBar />
       <div className="flex flex-col justify-center items-center ">
+        {hisory && (
+          <HistoryQuiz historyQuiz={historyQuiz} setHistory={setHistory} />
+        )}
         {quiz !== initialStateQuiz && openQuiz === false ? (
           <div
             onClick={handleResume}
@@ -73,7 +86,43 @@ export default function Home() {
           </>
         )}
       </div>
-      {openQuiz && <Quiz setOpenQuiz={setOpenQuiz} />}
+      {openQuiz && (
+        <Quiz
+          result={result}
+          setResult={setResult}
+          setStateQuiz={setStateQuiz}
+          setOpenQuiz={setOpenQuiz}
+        />
+      )}
+      {result && (
+        <>
+          <div className="fixed inset-0 z-10 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]  ">
+            <div
+              className="fixed inset-0 w-full h-full bg-black opacity-40"
+              onClick={() => setResult(false)}
+            />
+            <div className="flex   -px-2  justify-center py-8">
+              <div className="relative w-full max-w-lg p-6 mx-auto  bg-white rounded-md shadow-lg">
+                <div className="mt-3 sm:flex w-full">
+                  <div className="mt-2 text-center sm:ml-1 sm:text-left w-full">
+                    <div className="flex flex-col w-full h-[40px]">
+                      <Result answer={stateQuiz} />
+                    </div>
+                    <div className="flex justify-end">
+                      <div
+                        onClick={() => setResult(!result)}
+                        className="bg-red-500 hover:cursor-pointer hover:opacity-75 p-2 rounded-md"
+                      >
+                        <p className="text-white">Close</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

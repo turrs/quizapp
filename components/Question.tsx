@@ -14,6 +14,8 @@ type QuestionProps = {
   setNumberQuestion: any;
   maxQuiz: number;
   setOpenQuiz: any;
+  setResult: any;
+  setStateQuiz: any;
 };
 
 const Question = ({
@@ -22,6 +24,8 @@ const Question = ({
   setNumberQuestion,
   maxQuiz,
   setOpenQuiz,
+  setResult,
+  setStateQuiz,
 }: QuestionProps) => {
   const choice = ['A', 'B', 'C', 'D'];
   const dispatch = useAppDispatch();
@@ -34,10 +38,11 @@ const Question = ({
   const [showModal, setShowModal] = useState<any | null>(false);
   const stateQuiz = useAppSelector((state) => state.quiz);
   const handleSubmitQuiz = (data: any) => {
-    console.log(data);
+    setStateQuiz(data);
     dispatch(setNewHistoryQuiz(data));
     dispatch(deleteAllQuiz());
     deleteUserQuiz();
+    setResult(true);
     setOpenQuiz(false);
     setShowModal(false);
   };

@@ -12,11 +12,13 @@ import { googleLogout } from '@react-oauth/google';
 import { asyncGetQuiz, deleteAllQuiz } from '@/states/Quiz';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import LoadingBar from 'react-redux-loading-bar';
+import { setDeleteAllHistory } from '@/states/History/action';
 type HeaderProps = {
   setOpenQuiz: any;
+  setHistory: any;
 };
 
-const Header = ({ setOpenQuiz }: HeaderProps) => {
+const Header = ({ setOpenQuiz, setHistory }: HeaderProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.users);
@@ -33,6 +35,7 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
 
   const handleLogout = () => {
     dispatch(deleteAllQuiz());
+    dispatch(setDeleteAllHistory());
     googleLogout();
     localStorage.clear();
     router.push('/login');
@@ -65,6 +68,7 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
             <button
               className="inline-flex items-center justify-center rounded-lg border border-gray-200 px-5 py-3 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring"
               type="button"
+              onClick={() => setHistory(true)}
             >
               <span className="text-sm font-medium"> Recent Quiz </span>
 
@@ -74,11 +78,11 @@ const Header = ({ setOpenQuiz }: HeaderProps) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                 />
               </svg>

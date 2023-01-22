@@ -17,7 +17,6 @@ const Login = (props: LoginProps) => {
   const router = useRouter();
   const handleSuccess = (credentialResponse: any) => {
     const user: any = jwt(credentialResponse.credential);
-    console.log(user);
     saveAccessToken(credentialResponse.credential);
     saveUserLogin(user);
     if (user !== null) {
